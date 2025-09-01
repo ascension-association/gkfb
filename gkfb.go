@@ -6,10 +6,14 @@ import (
 	"github.com/ascension-association/framebuffer"
 	"image"
 	"image/draw"
+	_ "embed"
 	_ "image/png"
 	"os"
 	"os/signal"
 )
+
+//go:embed logo.png
+var logo []byte
 
 func main() {
 	// Create a new framebuffer canvas.
@@ -34,8 +38,7 @@ func main() {
 	}
 
 	// Load the image we want to display.
-	buf := bytes.NewBuffer(gophercolor_png())
-	img, _, err := image.Decode(buf)
+	img, _, err := image.Decode(bytes.NewReader(logo))
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Image decode: %v\n", err)
 		return
